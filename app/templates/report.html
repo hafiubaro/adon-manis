@@ -1,0 +1,10 @@
+{% extends 'base.html' %}{% block content %}
+<div class="page-head"><div><span class="eyebrow">ADON MANIS</span><h1>Laporan pesanan dan sumber</h1><p class="muted">Rekap transaksi untuk admin dan pemilik.</p></div><button class="button no-print" onclick="window.print()">Cetak / Simpan PDF</button></div>
+<section class="panel">{% include '_filters.html' %}{% include '_period.html' %}
+<p><strong data-testid="report-count">{{ total }} pesanan</strong> · Diterima {{ counts.diterima }} · Diproses {{ counts.diproses }} · Selesai {{ counts.selesai }} · Dibatalkan {{ counts.dibatalkan }}</p>
+<p>Nilai pesanan selesai: <strong data-testid="report-value">{{ revenue|rupiah }}</strong></p>
+<p class="footnote">Nilai tersebut hanya menjumlahkan total pesanan berstatus selesai sesuai filter, bukan penerimaan uang atau laba. Pesanan dibatalkan tidak disertakan dalam nilai ini.</p></section>
+<section class="panel"><h2>Data pesanan</h2><div class="table-wrap"><table><thead><tr><th>Nomor / pelanggan</th><th>Sumber</th><th>Dicatat / selesai (WIB)</th><th>Status</th><th class="num">Total pesanan</th></tr></thead><tbody>
+{% for o in orders %}<tr><td>AM-{{ '%04d'|format(o.id_pesanan) }}<small>{{ o.nama }}</small></td><td>{{ o.nama_channel }}</td><td>{{ o.waktu_masuk.strftime('%d/%m/%Y %H:%M') }}<small>{{ o.waktu_selesai.strftime('%d/%m/%Y %H:%M') if o.waktu_selesai else 'Belum selesai' }}</small></td><td>{{ o.status|capitalize }}</td><td class="num">{{ o.total_harga|rupiah }}</td></tr>{% else %}<tr><td colspan="5" class="empty">Tidak ada pesanan yang sesuai.</td></tr>{% endfor %}
+</tbody></table></div></section>
+<section class="panel"><h2>Rekap sumber pesanan</h2>{% include '_channels.html' %}</section>{% endblock %}

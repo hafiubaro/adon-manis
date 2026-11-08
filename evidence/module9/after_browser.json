@@ -1,0 +1,41 @@
+{
+  "phase": "after",
+  "browser": "153.0.8010.0",
+  "checks": [
+    {
+      "tc": "TC19",
+      "http": 400,
+      "expected": 400,
+      "capture_matches_expected": true,
+      "passed": true
+    },
+    {
+      "tc": "TC20",
+      "http": 503,
+      "expected": 503,
+      "capture_matches_expected": true,
+      "passed": true
+    },
+    {
+      "tc": "TC21",
+      "rows": 0,
+      "expected": 0,
+      "capture_matches_expected": true,
+      "passed": true
+    },
+    {
+      "tc": "report",
+      "value": "Rp180.000",
+      "expected": "Rp180.000",
+      "capture_matches_expected": true,
+      "passed": true
+    },
+    {
+      "tc": "mobile",
+      "overflow": false,
+      "expected": false,
+      "capture_matches_expected": true,
+      "passed": true
+    }
+  ]
+}

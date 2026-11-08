@@ -1,0 +1,58 @@
+{
+  "browser": "153.0.8010.0",
+  "checks": [
+    {
+      "scenario": "Login admin dan membuka ringkasan",
+      "result": "LULUS"
+    },
+    {
+      "scenario": "CRUD Create dan Read melalui browser",
+      "result": "LULUS"
+    },
+    {
+      "scenario": "CRUD Update melalui browser",
+      "result": "LULUS"
+    },
+    {
+      "scenario": "CRUD Delete melalui browser",
+      "result": "LULUS"
+    },
+    {
+      "scenario": "Perhitungan subtotal dua produk di UI",
+      "result": "LULUS"
+    },
+    {
+      "scenario": "Pencatatan pesanan dan detail tersimpan",
+      "result": "LULUS"
+    },
+    {
+      "scenario": "Urutan status sampai selesai",
+      "result": "LULUS"
+    },
+    {
+      "scenario": "Peringatan duplikat sebelum simpan",
+      "result": "LULUS"
+    },
+    {
+      "scenario": "Ringkasan mobile tanpa luapan horizontal",
+      "result": "LULUS"
+    },
+    {
+      "scenario": "Logout kembali ke login",
+      "result": "LULUS"
+    },
+    {
+      "scenario": "Pemilik tidak melihat tombol mutasi",
+      "result": "LULUS"
+    },
+    {
+      "scenario": "Akses URL admin ditolak untuk pemilik",
+      "result": "LULUS"
+    },
+    {
+      "scenario": "Tidak ada JavaScript pageerror",
+      "result": "LULUS"
+    }
+  ],
+  "consoleErrors": []
+}

@@ -1,0 +1,86 @@
+{
+  "counts": [
+    {
+      "status": "dibatalkan",
+      "jumlah": 1,
+      "nilai": "18000.00"
+    },
+    {
+      "status": "diproses",
+      "jumlah": 3,
+      "nilai": "146000.00"
+    },
+    {
+      "status": "diterima",
+      "jumlah": 3,
+      "nilai": "45000.00"
+    },
+    {
+      "status": "selesai",
+      "jumlah": 4,
+      "nilai": "245000.00"
+    }
+  ],
+  "latest": [
+    {
+      "id_pesanan": 11,
+      "id_pelanggan": 1,
+      "id_channel": 1,
+      "waktu_masuk": "2026-10-20 11:54:51",
+      "status": "selesai",
+      "total_harga": "65000.00",
+      "waktu_selesai": "2026-10-20 11:54:52",
+      "alasan_pembatalan": null,
+      "id_pencatat": 1,
+      "kunci_input": "2fc35e550b74cade4a526ed34071741a96e7b871e64172f3",
+      "catatan_duplikat": null
+    }
+  ],
+  "details": [
+    {
+      "id_detail": 11,
+      "id_pesanan": 11,
+      "id_produk": 1,
+      "jumlah": 2,
+      "harga_satuan": "15000.00",
+      "subtotal": "30000.00"
+    },
+    {
+      "id_detail": 12,
+      "id_pesanan": 11,
+      "id_produk": 3,
+      "jumlah": 1,
+      "harga_satuan": "35000.00",
+      "subtotal": "35000.00"
+    }
+  ],
+  "logs": [
+    {
+      "id_log": 21,
+      "id_pesanan": 11,
+      "id_pengguna": 1,
+      "status_lama": null,
+      "status_baru": "diterima",
+      "waktu_perubahan": "2026-10-20 11:54:51",
+      "alasan": null
+    },
+    {
+      "id_log": 22,
+      "id_pesanan": 11,
+      "id_pengguna": 1,
+      "status_lama": "diterima",
+      "status_baru": "diproses",
+      "waktu_perubahan": "2026-10-20 11:54:52",
+      "alasan": null
+    },
+    {
+      "id_log": 23,
+      "id_pesanan": 11,
+      "id_pengguna": 1,
+      "status_lama": "diproses",
+      "status_baru": "selesai",
+      "waktu_perubahan": "2026-10-20 11:54:52",
+      "alasan": null
+    }
+  ]
+}

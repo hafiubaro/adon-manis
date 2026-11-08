@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% block content %}<div class="panel"><span class="eyebrow">{{ error.code }}</span><h1>Permintaan belum dapat diproses</h1><p>{{ error.description }}</p><a class="button" href="{{ url_for('orders.dashboard') }}">Kembali ke ringkasan</a></div>{% endblock %}

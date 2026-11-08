@@ -1,0 +1,150 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.7.0 -- /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3
+cachedir: .pytest_cache
+rootdir: /workspace/scratch/17aa7be63814/adon-manis9
+collecting ... collected 21 items
+
+tests/test_module9.py::test_TC01_login_valid PASSED                      [  4%]
+tests/test_module9.py::test_TC02_customer_crud PASSED                    [  9%]
+tests/test_module9.py::test_TC03_multi_item_total PASSED                 [ 14%]
+tests/test_module9.py::test_TC04_status_and_log PASSED                   [ 19%]
+tests/test_module9.py::test_TC05_dashboard_report_and_cancelled PASSED   [ 23%]
+tests/test_module9.py::test_TC06_owner_reads_report PASSED               [ 28%]
+tests/test_module9.py::test_TC07_wrong_password PASSED                   [ 33%]
+tests/test_module9.py::test_TC08_empty_customer_name PASSED              [ 38%]
+tests/test_module9.py::test_TC09_no_customer PASSED                      [ 42%]
+tests/test_module9.py::test_TC10_owner_cannot_input PASSED               [ 47%]
+tests/test_module9.py::test_quantity_boundary[TC11_qty0] PASSED          [ 52%]
+tests/test_module9.py::test_quantity_boundary[TC12_qty1] PASSED          [ 57%]
+tests/test_module9.py::test_quantity_boundary[TC13_qty999] PASSED        [ 61%]
+tests/test_module9.py::test_quantity_boundary[TC14_qty1000] PASSED       [ 66%]
+tests/test_module9.py::test_cancel_time_boundary[TC15_29m59s] PASSED     [ 71%]
+tests/test_module9.py::test_cancel_time_boundary[TC16_30m00s] PASSED     [ 76%]
+tests/test_module9.py::test_TC17_end_date_boundary PASSED                [ 80%]
+tests/test_module9.py::test_TC18_rollback_and_foreign_key PASSED         [ 85%]
+tests/test_module9.py::test_TC19_non_ascii_csrf FAILED                   [ 90%]
+tests/test_module9.py::test_TC20_database_unavailable FAILED             [ 95%]
+tests/test_module9.py::test_TC21_literal_search FAILED                   [100%]
+
+=================================== FAILURES ===================================
+___________________________ test_TC19_non_ascii_csrf ___________________________
+
+client = <FlaskClient <Flask 'app'>>, app = <Flask 'app'>
+
+    def test_TC19_non_ascii_csrf(client,app):
+        app.config['PROPAGATE_EXCEPTIONS']=False
+        token(client)
+        r=client.post('/login',data={'_csrf':'rusak-漢','username':'admin','password':'anything'})
+>       assert r.status_code==400, f'Actual HTTP {r.status_code}; expected 400'
+E       AssertionError: Actual HTTP 500; expected 400
+E       assert 500 == 400
+E        +  where 500 = <WrapperTestResponse streamed [500 INTERNAL SERVER ERROR]>.status_code
+
+tests/test_module9.py:145: AssertionError
+------------------------------ Captured log call -------------------------------
+ERROR    app:app.py:875 Exception on /login [POST]
+Traceback (most recent call last):
+  File "/root/.local/lib/python3.12/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/lib/python3.12/site-packages/flask/app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/lib/python3.12/site-packages/flask/app.py", line 915, in full_dispatch_request
+    rv = self.preprocess_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/lib/python3.12/site-packages/flask/app.py", line 1291, in preprocess_request
+    rv = self.ensure_sync(before_func)()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/17aa7be63814/adon-manis9/app/__init__.py", line 43, in protect_csrf
+    if not expected or not hmac.compare_digest(expected, actual):
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: comparing strings with non-ASCII characters is not supported
+________________________ test_TC20_database_unavailable ________________________
+
+client = <FlaskClient <Flask 'app'>>, app = <Flask 'app'>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fd702acc980>
+
+    def test_TC20_database_unavailable(client,app,monkeypatch):
+        app.config['PROPAGATE_EXCEPTIONS']=False
+        csrf=token(client)
+        monkeypatch.setitem(app.config,'DB_PORT',1) # koneksi sungguhan ke port tanpa layanan, tidak mematikan DB lain
+        r=client.post('/login',data={'_csrf':csrf,'username':'admin','password':'anything'})
+>       assert r.status_code==503, f'Actual HTTP {r.status_code}; expected 503'
+E       AssertionError: Actual HTTP 500; expected 503
+E       assert 500 == 503
+E        +  where 500 = <WrapperTestResponse streamed [500 INTERNAL SERVER ERROR]>.status_code
+
+tests/test_module9.py:154: AssertionError
+------------------------------ Captured log call -------------------------------
+ERROR    app:app.py:875 Exception on /login [POST]
+Traceback (most recent call last):
+  File "/root/.local/lib/python3.12/site-packages/pymysql/connections.py", line 681, in connect
+    sock = socket.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py", line 865, in create_connection
+    raise exceptions[0]
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py", line 850, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/.local/lib/python3.12/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/lib/python3.12/site-packages/flask/app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/lib/python3.12/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/lib/python3.12/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/17aa7be63814/adon-manis9/app/auth.py", line 39, in login
+    user = query('SELECT * FROM pengguna WHERE username=%s', (username,), one=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/17aa7be63814/adon-manis9/app/db.py", line 23, in query
+    with get_db().cursor() as cur:
+         ^^^^^^^^
+  File "/workspace/scratch/17aa7be63814/adon-manis9/app/db.py", line 18, in get_db
+    g.db = connect(current_app.config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/17aa7be63814/adon-manis9/app/db.py", line 6, in connect
+    return pymysql.connect(
+           ^^^^^^^^^^^^^^^^
+  File "/root/.local/lib/python3.12/site-packages/pymysql/connections.py", line 373, in __init__
+    self.connect()
+  File "/root/.local/lib/python3.12/site-packages/pymysql/connections.py", line 744, in connect
+    raise exc
+pymysql.err.OperationalError: (2003, "Can't connect to MySQL server on '127.0.0.1' ([Errno 111] Connection refused)")
+___________________________ test_TC21_literal_search ___________________________
+
+app = <Flask 'app'>, client = <FlaskClient <Flask 'app'>>
+
+    def test_TC21_literal_search(app,client):
+        order(app,'a');order(app,'b',id_pelanggan='2');login(client)
+        for path in ['/pesanan','/laporan','/']:
+            r=client.get(path,query_string={'q':'%'})
+            assert r.status_code==200
+>           assert 'Siti Aminah' not in r.text and 'Budi Santoso' not in r.text, 'Actual: wildcard returns unrelated customers'
+E           AssertionError: Actual: wildcard returns unrelated customers
+E           assert ('Siti Aminah' not in '<!doctype h...body></html>'
+E             
+E             'Siti Aminah' is contained here:
+E               <!doctype html>
+E               <html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Adon Manis</title><link rel="stylesheet" href="/static/style.css"><script defer src="/static/app.js"></script></head>
+E               <body>
+E               <aside class="sidebar"><a class="brand" href="/"><span class="brand-icon">am</span><span>adon manis<small>Ruang pesanan bakery</small></span></a><p class="nav-caption">RUANG KERJA</p><nav><a class="" href="/">Ringkasan</a><a class="active" href="/pesanan">Pesanan</a><a class="" href="/pelanggan...
+E             
+E             ...Full output truncated (13 lines hidden), use '-vv' to show)
+
+tests/test_module9.py:164: AssertionError
+- generated xml file: /workspace/scratch/17aa7be63814/adon-manis9/evidence/module9/before.xml -
+=========================== short test summary info ============================
+FAILED tests/test_module9.py::test_TC19_non_ascii_csrf - AssertionError: Actu...
+FAILED tests/test_module9.py::test_TC20_database_unavailable - AssertionError...
+FAILED tests/test_module9.py::test_TC21_literal_search - AssertionError: Actu...
+========================= 3 failed, 18 passed in 8.79s =========================

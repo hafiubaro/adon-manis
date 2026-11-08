@@ -1,0 +1,85 @@
+commit f4a5a6cf46383775abec673b35387bde3e2db5bb
+Author:     Codex <codex@local.invalid>
+AuthorDate: Tue Oct 27 05:43:29 2026 +0800
+Commit:     Codex <codex@local.invalid>
+CommitDate: Tue Oct 27 05:43:29 2026 +0800
+
+    Modul 9: tangani CSRF non-ASCII, putus koneksi database, dan pencarian literal
+
+diff --git a/app/__init__.py b/app/__init__.py
+index 01ac715..0a38b0d 100644
+--- a/app/__init__.py
++++ b/app/__init__.py
+@@ -1,6 +1,7 @@
+ import os
+ import secrets
+ import hmac
++import pymysql
+ from pathlib import Path
+ from datetime import timedelta
+ from decimal import Decimal
+@@ -40,9 +41,22 @@ def create_app(test_config=None):
+         if request.method == 'POST':
+             expected = session.get('_csrf', '')
+             actual = request.form.get('_csrf', '')
+-            if not expected or not hmac.compare_digest(expected, actual):
++            valid_tokens = (isinstance(expected, str) and isinstance(actual, str)
++                            and len(expected) == 64 and len(actual) == 64
++                            and expected.isascii() and actual.isascii())
++            if not valid_tokens or not hmac.compare_digest(expected, actual):
+                 abort(400, description='Form kedaluwarsa atau token tidak valid. Muat ulang halaman.')
+ 
++    @app.errorhandler(pymysql.OperationalError)
++    @app.errorhandler(pymysql.InterfaceError)
++    def database_unavailable(error):
++        # Tangani hanya kegagalan koneksi, bukan error SQL/aturan data lain.
++        code = error.args[0] if error.args else None
++        if code not in (0, 2002, 2003, 2006, 2013, 2055):
++            raise error
++        app.logger.warning('Koneksi database tidak tersedia; kode %s', code)
++        return render_template('database_unavailable.html'), 503
++
+     @app.template_filter('rupiah')
+     def rupiah(value):
+         return 'Rp' + format(Decimal(value or 0), ',.0f').replace(',', '.')
+diff --git a/app/db.py b/app/db.py
+index 0a3cacc..f1d29d0 100644
+--- a/app/db.py
++++ b/app/db.py
+@@ -9,6 +9,7 @@ def connect(config, database=True):
+         database=config['DB_NAME'] if database else None,
+         charset='utf8mb4', cursorclass=pymysql.cursors.DictCursor,
+         autocommit=False,
++        connect_timeout=3, read_timeout=5, write_timeout=5,
+         init_command="SET SESSION sql_mode='STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION'",
+     )
+ 
+diff --git a/app/reporting.py b/app/reporting.py
+index d925857..5ea0dd7 100644
+--- a/app/reporting.py
++++ b/app/reporting.py
+@@ -42,8 +42,10 @@ def select_orders(args, allow_basis=False):
+             sql += ' AND '+('p.status' if field=='status' else 'p.id_channel')+'=%s'
+             params.append(f[field])
+     if f['q']:
+-        sql += ' AND (pl.nama LIKE %s OR CAST(p.id_pesanan AS CHAR)=%s)'
+-        params += ['%'+f['q']+'%',f['q'].removeprefix('AM-').lstrip('0') or '0']
++        # Pengguna mencari teks nama, bukan pola wildcard SQL.
++        literal = f['q'].replace('!', '!!').replace('%', '!%').replace('_', '!_')
++        sql += " AND (pl.nama LIKE %s ESCAPE '!' OR CAST(p.id_pesanan AS CHAR)=%s)"
++        params += ['%'+literal+'%',f['q'].removeprefix('AM-').lstrip('0') or '0']
+     if 'mulai' in dates:
+         sql += ' AND '+col+'>=%s'; params.append(dates['mulai'])
+     if end:
+diff --git a/app/templates/database_unavailable.html b/app/templates/database_unavailable.html
+new file mode 100644
+index 0000000..323a53f
+--- /dev/null
++++ b/app/templates/database_unavailable.html
+@@ -0,0 +1,6 @@
++{% extends 'base.html' %}{% block content %}
++<section class="panel"><span class="eyebrow">503</span><h1>Database sementara tidak tersedia</h1>
++<p>Coba muat ulang halaman setelah koneksi pulih.</p>
++<p>Jika Anda sedang menyimpan pesanan, periksa daftar pesanan setelah koneksi pulih sebelum mengirim ulang agar data tidak tercatat ganda.</p>
++<a class="button" href="{{ url_for('auth.login') }}">Kembali ke halaman masuk</a></section>
++{% endblock %}

@@ -1,0 +1,76 @@
+{
+  "timestamp": "2026-10-20T04:54:53.904Z",
+  "browser": "153.0.8010.0",
+  "order_code": "AM-0011",
+  "checks": [
+    {
+      "name": "Login admin",
+      "passed": true
+    },
+    {
+      "name": "Nilai awal Rp180000",
+      "passed": true
+    },
+    {
+      "name": "Estimasi multi item Rp65000",
+      "passed": true
+    },
+    {
+      "name": "Pesanan tersimpan dengan dua detail",
+      "passed": true
+    },
+    {
+      "name": "Dashboard diterima bertambah menjadi4",
+      "passed": true
+    },
+    {
+      "name": "Nilai selesai belum berubah",
+      "passed": true
+    },
+    {
+      "name": "Pencarian dan filter menemukan satu pesanan",
+      "passed": true
+    },
+    {
+      "name": "Status selesai dan tiga log",
+      "passed": true
+    },
+    {
+      "name": "Dashboard selesai menjadi4",
+      "passed": true
+    },
+    {
+      "name": "Nilai selesai menjadiRp245000",
+      "passed": true
+    },
+    {
+      "name": "Laporan 11 pesanan",
+      "passed": true
+    },
+    {
+      "name": "Laporan nilaiRp245000",
+      "passed": true
+    },
+    {
+      "name": "PDF tercetak",
+      "passed": true
+    },
+    {
+      "name": "Pemilik membaca laporan selesai",
+      "passed": true
+    },
+    {
+      "name": "Pemilik tidak boleh input",
+      "passed": true
+    },
+    {
+      "name": "Tampilan mobile tidak meluap ke samping",
+      "passed": true
+    },
+    {
+      "name": "Tanpa error JavaScript",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,44 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0 -- /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3
+cachedir: .pytest_cache
+rootdir: /workspace/scratch/17aa7be63814
+collecting ... collected 35 items
+
+output/adon-manis/tests/test_core.py::test_database_connection PASSED    [  2%]
+output/adon-manis/tests/test_core.py::test_login_correct_and_logout PASSED [  5%]
+output/adon-manis/tests/test_core.py::test_wrong_password_rejected PASSED [  8%]
+output/adon-manis/tests/test_core.py::test_protected_page_redirect PASSED [ 11%]
+output/adon-manis/tests/test_core.py::test_csrf_required PASSED          [ 14%]
+output/adon-manis/tests/test_core.py::test_owner_cannot_mutate_or_open_admin_page PASSED [ 17%]
+output/adon-manis/tests/test_core.py::test_customer_create_read_update_delete PASSED [ 20%]
+output/adon-manis/tests/test_core.py::test_customer_validation[-08199999999] PASSED [ 22%]
+output/adon-manis/tests/test_core.py::test_customer_validation[A-08199999999] PASSED [ 25%]
+output/adon-manis/tests/test_core.py::test_customer_validation[Nama-abc] PASSED [ 28%]
+output/adon-manis/tests/test_core.py::test_customer_validation[Nama-081] PASSED [ 31%]
+output/adon-manis/tests/test_core.py::test_duplicate_phone_normalized PASSED [ 34%]
+output/adon-manis/tests/test_core.py::test_delete_customer_with_order_blocked PASSED [ 37%]
+output/adon-manis/tests/test_core.py::test_create_order_total_details_initial_log PASSED [ 40%]
+output/adon-manis/tests/test_core.py::test_quantity_validation_no_partial_order[0] PASSED [ 42%]
+output/adon-manis/tests/test_core.py::test_quantity_validation_no_partial_order[-1] PASSED [ 45%]
+output/adon-manis/tests/test_core.py::test_quantity_validation_no_partial_order[1.5] PASSED [ 48%]
+output/adon-manis/tests/test_core.py::test_quantity_validation_no_partial_order[abc] PASSED [ 51%]
+output/adon-manis/tests/test_core.py::test_quantity_validation_no_partial_order[1000] PASSED [ 54%]
+output/adon-manis/tests/test_core.py::test_unknown_foreign_reference_rejected[id_pelanggan-9999] PASSED [ 57%]
+output/adon-manis/tests/test_core.py::test_unknown_foreign_reference_rejected[id_channel-9999] PASSED [ 60%]
+output/adon-manis/tests/test_core.py::test_unknown_foreign_reference_rejected[id_produk-9999] PASSED [ 62%]
+output/adon-manis/tests/test_core.py::test_duplicate_warning_then_override PASSED [ 65%]
+output/adon-manis/tests/test_core.py::test_same_submit_key_no_double_insert PASSED [ 68%]
+output/adon-manis/tests/test_core.py::test_status_forward_and_log PASSED [ 71%]
+output/adon-manis/tests/test_core.py::test_status_skip_and_backward_rejected PASSED [ 74%]
+output/adon-manis/tests/test_core.py::test_cancel_materials_and_reason_saved PASSED [ 77%]
+output/adon-manis/tests/test_core.py::test_cancel_no_response_before_30_minutes_rejected PASSED [ 80%]
+output/adon-manis/tests/test_core.py::test_cancel_no_response_after_30_minutes PASSED [ 82%]
+output/adon-manis/tests/test_core.py::test_completed_order_cannot_cancel PASSED [ 85%]
+output/adon-manis/tests/test_core.py::test_summary_excludes_cancelled_and_pending PASSED [ 88%]
+output/adon-manis/tests/test_core.py::test_transaction_rollback_if_log_insert_fails PASSED [ 91%]
+output/adon-manis/tests/test_core.py::test_http_order_flow_and_tampered_total PASSED [ 94%]
+output/adon-manis/tests/test_core.py::test_xss_escaped_and_sql_injection_login_rejected PASSED [ 97%]
+output/adon-manis/tests/test_core.py::test_missing_order_returns_404 PASSED [100%]
+
+- generated xml file: /workspace/scratch/17aa7be63814/output/adon-manis/evidence/pytest-results.xml -
+============================== 35 passed in 8.07s ==============================

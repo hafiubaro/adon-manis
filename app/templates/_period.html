@@ -1,0 +1,4 @@
+<p class="footnote">Periode: {{ filters.mulai or 'awal data' }} sampai {{ filters.akhir or 'akhir data' }} (WIB, tanggal akhir termasuk).
+Dasar tanggal: {{ 'penyelesaian — hanya pesanan selesai' if filters.basis=='selesai' else 'pencatatan — status terkini pesanan yang dicatat dalam periode' }}.
+Status: {{ filters.status or 'semua' }}. Sumber: {% for c in channels if filters.channel==c.id_channel|string %}{{ c.nama_channel }}{% else %}semua{% endfor %}.
+Pencarian: {{ filters.q or 'tidak dibatasi' }}.</p>

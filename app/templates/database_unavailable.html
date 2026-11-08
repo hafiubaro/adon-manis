@@ -1,0 +1,6 @@
+{% extends 'base.html' %}{% block content %}
+<section class="panel"><span class="eyebrow">503</span><h1>Database sementara tidak tersedia</h1>
+<p>Coba muat ulang halaman setelah koneksi pulih.</p>
+<p>Jika Anda sedang menyimpan pesanan, periksa daftar pesanan setelah koneksi pulih sebelum mengirim ulang agar data tidak tercatat ganda.</p>
+<a class="button" href="{{ url_for('auth.login') }}">Kembali ke halaman masuk</a></section>
+{% endblock %}

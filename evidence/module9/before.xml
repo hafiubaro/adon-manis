@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="21" time="8.787" timestamp="2026-10-27T05:40:57.976411+08:00" hostname="f0ce8954037a"><testcase classname="tests.test_module9" name="test_TC01_login_valid" time="0.360" /><testcase classname="tests.test_module9" name="test_TC02_customer_crud" time="0.434" /><testcase classname="tests.test_module9" name="test_TC03_multi_item_total" time="0.476" /><testcase classname="tests.test_module9" name="test_TC04_status_and_log" time="0.418" /><testcase classname="tests.test_module9" name="test_TC05_dashboard_report_and_cancelled" time="0.482" /><testcase classname="tests.test_module9" name="test_TC06_owner_reads_report" time="0.407" /><testcase classname="tests.test_module9" name="test_TC07_wrong_password" time="0.413" /><testcase classname="tests.test_module9" name="test_TC08_empty_customer_name" time="0.405" /><testcase classname="tests.test_module9" name="test_TC09_no_customer" time="0.495" /><testcase classname="tests.test_module9" name="test_TC10_owner_cannot_input" time="0.517" /><testcase classname="tests.test_module9" name="test_quantity_boundary[TC11_qty0]" time="0.439" /><testcase classname="tests.test_module9" name="test_quantity_boundary[TC12_qty1]" time="0.410" /><testcase classname="tests.test_module9" name="test_quantity_boundary[TC13_qty999]" time="0.475" /><testcase classname="tests.test_module9" name="test_quantity_boundary[TC14_qty1000]" time="0.494" /><testcase classname="tests.test_module9" name="test_cancel_time_boundary[TC15_29m59s]" time="0.330" /><testcase classname="tests.test_module9" name="test_cancel_time_boundary[TC16_30m00s]" time="0.265" /><testcase classname="tests.test_module9" name="test_TC17_end_date_boundary" time="0.426" /><testcase classname="tests.test_module9" name="test_TC18_rollback_and_foreign_key" time="0.335" /><testcase classname="tests.test_module9" name="test_TC19_non_ascii_csrf" time="0.240"><failure message="AssertionError: Actual HTTP 500; expected 400&#10;assert 500 == 400&#10; +  where 500 = &lt;WrapperTestResponse streamed [500 INTERNAL SERVER ERROR]&gt;.status_code">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, app = &lt;Flask 'app'&gt;
+
+    def test_TC19_non_ascii_csrf(client,app):
+        app.config['PROPAGATE_EXCEPTIONS']=False
+        token(client)
+        r=client.post('/login',data={'_csrf':'rusak-漢','username':'admin','password':'anything'})
+&gt;       assert r.status_code==400, f'Actual HTTP {r.status_code}; expected 400'
+E       AssertionError: Actual HTTP 500; expected 400
+E       assert 500 == 400
+E        +  where 500 = &lt;WrapperTestResponse streamed [500 INTERNAL SERVER ERROR]&gt;.status_code
+
+tests/test_module9.py:145: AssertionError</failure></testcase><testcase classname="tests.test_module9" name="test_TC20_database_unavailable" time="0.257"><failure message="AssertionError: Actual HTTP 500; expected 503&#10;assert 500 == 503&#10; +  where 500 = &lt;WrapperTestResponse streamed [500 INTERNAL SERVER ERROR]&gt;.status_code">client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;, app = &lt;Flask 'app'&gt;
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7fd702acc980&gt;
+
+    def test_TC20_database_unavailable(client,app,monkeypatch):
+        app.config['PROPAGATE_EXCEPTIONS']=False
+        csrf=token(client)
+        monkeypatch.setitem(app.config,'DB_PORT',1) # koneksi sungguhan ke port tanpa layanan, tidak mematikan DB lain
+        r=client.post('/login',data={'_csrf':csrf,'username':'admin','password':'anything'})
+&gt;       assert r.status_code==503, f'Actual HTTP {r.status_code}; expected 503'
+E       AssertionError: Actual HTTP 500; expected 503
+E       assert 500 == 503
+E        +  where 500 = &lt;WrapperTestResponse streamed [500 INTERNAL SERVER ERROR]&gt;.status_code
+
+tests/test_module9.py:154: AssertionError</failure></testcase><testcase classname="tests.test_module9" name="test_TC21_literal_search" time="0.522"><failure message="AssertionError: Actual: wildcard returns unrelated customers&#10;assert ('Siti Aminah' not in '&lt;!doctype h...body&gt;&lt;/html&gt;'&#10;  &#10;  'Siti Aminah' is contained here:&#10;    &lt;!doctype html&gt;&#10;    &lt;html lang=&quot;id&quot;&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;&lt;title&gt;Adon Manis&lt;/title&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;/static/style.css&quot;&gt;&lt;script defer src=&quot;/static/app.js&quot;&gt;&lt;/script&gt;&lt;/head&gt;&#10;    &lt;body&gt;&#10;    &lt;aside class=&quot;sidebar&quot;&gt;&lt;a class=&quot;brand&quot; href=&quot;/&quot;&gt;&lt;span class=&quot;brand-icon&quot;&gt;am&lt;/span&gt;&lt;span&gt;adon manis&lt;small&gt;Ruang pesanan bakery&lt;/small&gt;&lt;/span&gt;&lt;/a&gt;&lt;p class=&quot;nav-caption&quot;&gt;RUANG KERJA&lt;/p&gt;&lt;nav&gt;&lt;a class=&quot;&quot; href=&quot;/&quot;&gt;Ringkasan&lt;/a&gt;&lt;a class=&quot;active&quot; href=&quot;/pesanan&quot;&gt;Pesanan&lt;/a&gt;&lt;a class=&quot;&quot; href=&quot;/pelanggan...&#10;  &#10;  ...Full output truncated (13 lines hidden), use '-vv' to show)">app = &lt;Flask 'app'&gt;, client = &lt;FlaskClient &lt;Flask 'app'&gt;&gt;
+
+    def test_TC21_literal_search(app,client):
+        order(app,'a');order(app,'b',id_pelanggan='2');login(client)
+        for path in ['/pesanan','/laporan','/']:
+            r=client.get(path,query_string={'q':'%'})
+            assert r.status_code==200
+&gt;           assert 'Siti Aminah' not in r.text and 'Budi Santoso' not in r.text, 'Actual: wildcard returns unrelated customers'
+E           AssertionError: Actual: wildcard returns unrelated customers
+E           assert ('Siti Aminah' not in '&lt;!doctype h...body&gt;&lt;/html&gt;'
+E             
+E             'Siti Aminah' is contained here:
+E               &lt;!doctype html&gt;
+E               &lt;html lang="id"&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;&lt;meta name="viewport" content="width=device-width,initial-scale=1"&gt;&lt;title&gt;Adon Manis&lt;/title&gt;&lt;link rel="stylesheet" href="/static/style.css"&gt;&lt;script defer src="/static/app.js"&gt;&lt;/script&gt;&lt;/head&gt;
+E               &lt;body&gt;
+E               &lt;aside class="sidebar"&gt;&lt;a class="brand" href="/"&gt;&lt;span class="brand-icon"&gt;am&lt;/span&gt;&lt;span&gt;adon manis&lt;small&gt;Ruang pesanan bakery&lt;/small&gt;&lt;/span&gt;&lt;/a&gt;&lt;p class="nav-caption"&gt;RUANG KERJA&lt;/p&gt;&lt;nav&gt;&lt;a class="" href="/"&gt;Ringkasan&lt;/a&gt;&lt;a class="active" href="/pesanan"&gt;Pesanan&lt;/a&gt;&lt;a class="" href="/pelanggan...
+E             
+E             ...Full output truncated (13 lines hidden), use '-vv' to show)
+
+tests/test_module9.py:164: AssertionError</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,233 @@
+[
+  {
+    "id": "TC01",
+    "jenis": "P",
+    "scenario": "TS01",
+    "nama": "Login admin valid",
+    "input_dan_langkah": "Buka login; isi akun admin uji; tekan Masuk.",
+    "expected": "HTTP 302 lalu dashboard HTTP 200.",
+    "before": "PASS",
+    "after": "PASS",
+    "actual_after": "302; dashboard 200."
+  },
+  {
+    "id": "TC02",
+    "jenis": "P",
+    "scenario": "TS02",
+    "nama": "CRUD pelanggan",
+    "input_dan_langkah": "Tambah Pelanggan Uji M9, 081299999999; baca; ubah nama; hapus.",
+    "expected": "Data tersimpan, berubah, lalu hilang; tanpa pesanan terkait.",
+    "before": "PASS",
+    "after": "PASS",
+    "actual_after": "Insert, baca, update dan delete terverifikasi di database."
+  },
+  {
+    "id": "TC03",
+    "jenis": "P",
+    "scenario": "TS03",
+    "nama": "Pesanan multi item",
+    "input_dan_langkah": "Login; pilih pelanggan 1, WhatsApp, 2 Roti Coklat dan 1 Brownies; kirim total client Rp1.",
+    "expected": "Dua detail; total server Rp65.000; status diterima.",
+    "before": "PASS",
+    "after": "PASS",
+    "actual_after": "HTTP 302; dua detail, Rp65.000, diterima."
+  },
+  {
+    "id": "TC04",
+    "jenis": "P",
+    "scenario": "TS04",
+    "nama": "Status dan log",
+    "input_dan_langkah": "Buat pesanan; kirim status diproses lalu selesai melalui halaman detail.",
+    "expected": "Status selesai; waktu selesai terisi; tiga log.",
+    "before": "PASS",
+    "after": "PASS",
+    "actual_after": "Dua respons 302; status, waktu selesai, tiga log sesuai."
+  },
+  {
+    "id": "TC05",
+    "jenis": "P",
+    "scenario": "TS05/06",
+    "nama": "Dashboard dan laporan",
+    "input_dan_langkah": "Selesaikan pesanan Rp65.000; batalkan pesanan kedua Rp65.000 karena bahan habis; buka ringkasan dan laporan.",
+    "expected": "Dua pesanan; nilai selesai Rp65.000; pembatalan tidak dihitung.",
+    "before": "PASS",
+    "after": "PASS",
+    "actual_after": "Dashboard/laporan Rp65.000; laporan 2 pesanan; cocok SUM database."
+  },
+  {
+    "id": "TC06",
+    "jenis": "P",
+    "scenario": "TS06",
+    "nama": "Laporan pemilik",
+    "input_dan_langkah": "Login pemilik; buka /laporan.",
+    "expected": "Akses baca diizinkan, HTTP 200.",
+    "before": "PASS",
+    "after": "PASS",
+    "actual_after": "HTTP 200."
+  },
+  {
+    "id": "TC07",
+    "jenis": "N",
+    "scenario": "TS01",
+    "nama": "Password salah",
+    "input_dan_langkah": "Isi username admin dan password salah; coba buka dashboard.",
+    "expected": "Login 401; dashboard mengarah ke login.",
+    "before": "PASS",
+    "after": "PASS",
+    "actual_after": "401; dashboard 302."
+  },
+  {
+    "id": "TC08",
+    "jenis": "N",
+    "scenario": "TS02",
+    "nama": "Nama pelanggan kosong",
+    "input_dan_langkah": "Login admin; kirim form pelanggan dengan nama kosong.",
+    "expected": "HTTP 400; pelanggan baru tidak tersimpan.",
+    "before": "PASS",
+    "after": "PASS",
+    "actual_after": "400; jumlah pelanggan tetap tiga."
+  },
+  {
+    "id": "TC09",
+    "jenis": "N",
+    "scenario": "TS03",
+    "nama": "Pelanggan tidak dipilih",
+    "input_dan_langkah": "Kirim pesanan dengan id_pelanggan kosong dan produk valid.",
+    "expected": "HTTP 400; tidak ada pesanan tersimpan.",
+    "before": "PASS",
+    "after": "PASS",
+    "actual_after": "400; tabel pesanan kosong."
+  },
+  {
+    "id": "TC10",
+    "jenis": "N",
+    "scenario": "TS01",
+    "nama": "Pemilik mencoba input",
+    "input_dan_langkah": "Login pemilik; GET dan POST /pesanan/baru dengan CSRF valid.",
+    "expected": "Kedua akses ditolak HTTP 403.",
+    "before": "PASS",
+    "after": "PASS",
+    "actual_after": "GET 403; POST 403."
+  },
+  {
+    "id": "TC11",
+    "jenis": "B",
+    "scenario": "TS03",
+    "nama": "Jumlah di bawah batas",
+    "input_dan_langkah": "Kirim satu Roti Coklat, jumlah 0.",
+    "expected": "Ditolak HTTP 400; tidak tersimpan.",
+    "before": "PASS",
+    "after": "PASS",
+    "actual_after": "400; tidak ada pesanan."
+  },
+  {
+    "id": "TC12",
+    "jenis": "B",
+    "scenario": "TS03",
+    "nama": "Jumlah minimum",
+    "input_dan_langkah": "Kirim satu jenis Roti Coklat, jumlah 1.",
+    "expected": "Diterima HTTP 302; total Rp15.000.",
+    "before": "PASS",
+    "after": "PASS",
+    "actual_after": "302; satu pesanan Rp15.000."
+  },
+  {
+    "id": "TC13",
+    "jenis": "B",
+    "scenario": "TS03",
+    "nama": "Jumlah maksimum",
+    "input_dan_langkah": "Kirim satu jenis Roti Coklat, jumlah 999.",
+    "expected": "Diterima HTTP 302; total Rp14.985.000.",
+    "before": "PASS",
+    "after": "PASS",
+    "actual_after": "302; satu pesanan Rp14.985.000."
+  },
+  {
+    "id": "TC14",
+    "jenis": "B",
+    "scenario": "TS03",
+    "nama": "Jumlah di atas batas",
+    "input_dan_langkah": "Kirim satu jenis Roti Coklat, jumlah 1000.",
+    "expected": "Ditolak HTTP 400; tidak tersimpan.",
+    "before": "PASS",
+    "after": "PASS",
+    "actual_after": "400; tidak ada pesanan."
+  },
+  {
+    "id": "TC15",
+    "jenis": "B",
+    "scenario": "TS04",
+    "nama": "Pembatalan sebelum 30 menit",
+    "input_dan_langkah": "Tetapkan waktu uji; pesanan diterima berumur 29 menit 59 detik; ajukan alasan tidak merespons.",
+    "expected": "Ditolak; status tetap diterima.",
+    "before": "PASS",
+    "after": "PASS",
+    "actual_after": "ValidationError; status diterima."
+  },
+  {
+    "id": "TC16",
+    "jenis": "B",
+    "scenario": "TS04",
+    "nama": "Pembatalan tepat 30 menit",
+    "input_dan_langkah": "Waktu uji tetap; pesanan diterima berumur 30 menit 00 detik; alasan tidak merespons.",
+    "expected": "Diterima; status dibatalkan.",
+    "before": "PASS",
+    "after": "PASS",
+    "actual_after": "Status dibatalkan."
+  },
+  {
+    "id": "TC17",
+    "jenis": "B",
+    "scenario": "TS07",
+    "nama": "Batas akhir tanggal",
+    "input_dan_langkah": "Siapkan data 27 Oktober 23.59.59 dan 28 Oktober 00.00; filter 27 sampai 27 Oktober 2026.",
+    "expected": "Pesanan pertama masuk; kedua tidak masuk.",
+    "before": "PASS",
+    "after": "PASS",
+    "actual_after": "Hanya nomor pesanan pertama muncul."
+  },
+  {
+    "id": "TC18",
+    "jenis": "N",
+    "scenario": "TS03",
+    "nama": "Rollback dan relasi",
+    "input_dan_langkah": "Pada DB uji, buat trigger agar insert log gagal; simpan pesanan; hapus trigger; coba pelanggan ID 99999.",
+    "expected": "Rollback header/detail; pelanggan tidak valid ditolak; tanpa data parsial.",
+    "before": "PASS",
+    "after": "PASS",
+    "actual_after": "Exception yang diharapkan; header dan detail kosong; referensi tidak valid ditolak."
+  },
+  {
+    "id": "TC19",
+    "jenis": "N",
+    "scenario": "TS01",
+    "nama": "Token non ASCII",
+    "input_dan_langkah": "Buka login agar sesi tersedia; kirim token dengan satu karakter non-ASCII lalu submit.",
+    "expected": "HTTP 400 dengan pesan token tidak valid.",
+    "before": "FAIL",
+    "after": "PASS",
+    "actual_after": "400; pesan Form kedaluwarsa tampil."
+  },
+  {
+    "id": "TC20",
+    "jenis": "N",
+    "scenario": "TS01",
+    "nama": "Koneksi DB tidak tersedia",
+    "input_dan_langkah": "Pada instance pengujian saja, arahkan koneksi ke port 1 tanpa layanan; kirim login dengan CSRF valid.",
+    "expected": "HTTP 503; pesan database tidak tersedia; tanpa traceback atau informasi password.",
+    "before": "FAIL",
+    "after": "PASS",
+    "actual_after": "503; pesan sesuai; tidak ada traceback atau informasi password pada respons."
+  },
+  {
+    "id": "TC21",
+    "jenis": "N",
+    "scenario": "TS07",
+    "nama": "Pencarian karakter persen",
+    "input_dan_langkah": "Siapkan pesanan Siti dan Budi tanpa karakter persen dalam nama; cari teks % pada daftar, dashboard, dan laporan.",
+    "expected": "Tidak menampilkan nama yang tidak mengandung %; HTTP 200.",
+    "before": "FAIL",
+    "after": "PASS",
+    "actual_after": "200 pada tiga halaman; Siti dan Budi tidak muncul."
+  }
+]

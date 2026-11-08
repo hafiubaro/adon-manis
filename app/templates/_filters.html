@@ -1,0 +1,9 @@
+<form class="filters no-print" method="get">
+<div><label for="q">Nama atau nomor pesanan</label><input id="q" name="q" value="{{ filters.q }}" placeholder="Nama / AM-0001"></div>
+<div><label for="status">Status</label><select id="status" name="status"><option value="">Semua status</option>{% for s in ['diterima','diproses','selesai','dibatalkan'] %}<option value="{{ s }}" {{ 'selected' if filters.status==s }}>{{ s|capitalize }}</option>{% endfor %}</select></div>
+<div><label for="channel">Sumber</label><select id="channel" name="channel"><option value="">Semua sumber</option>{% for c in channels %}<option value="{{ c.id_channel }}" {{ 'selected' if filters.channel==c.id_channel|string }}>{{ c.nama_channel }}</option>{% endfor %}</select></div>
+{% if request.path != '/pesanan' %}<div><label for="basis">Dasar tanggal</label><select id="basis" name="basis"><option value="masuk" {{ 'selected' if filters.basis=='masuk' }}>Pencatatan</option><option value="selesai" {{ 'selected' if filters.basis=='selesai' }}>Penyelesaian</option></select></div>{% endif %}
+<div><label for="mulai">Tanggal awal</label><input id="mulai" type="date" name="mulai" value="{{ filters.mulai }}"></div>
+<div><label for="akhir">Tanggal akhir</label><input id="akhir" type="date" name="akhir" value="{{ filters.akhir }}"></div>
+<button class="button">Tampilkan</button><a href="{{ request.path }}">Reset</a>
+</form>
